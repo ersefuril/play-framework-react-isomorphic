@@ -3,8 +3,8 @@ var ReactDOM = require("react-dom/server"); // Include react-dom for server rend
 
 var LatestPosts = require('./pages/post/LatestPosts');
 
-function renderPostList(elements, webHost) {
-    return ReactDOM.renderToString(<LatestPosts posts={elements} webHost={webHost} canShowMore={true} onClickMore={noop}/>);
+function renderPostList(elements) {
+    return ReactDOM.renderToString(<LatestPosts posts={elements} onClickMore={() => {}}/>);
 }
 
 function noop() {

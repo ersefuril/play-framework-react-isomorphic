@@ -25,17 +25,17 @@ class HomeController @Inject() extends Controller {
     Ok(views.html.index())
   }
 
-  def getPosts = Action {
+  def getPosts(from: Int) = Action {
     // Put a .wait here
-    Ok(Json.toJson(Posts.posts))
+    Ok(Json.toJson(Posts.posts.slice(from, from + 3)))
   }
 
   def postPage = Action {
-    val postsList = Posts.posts.map(p => Json.toJson(p).as[JsObject])
-    val postsAsJson = JsArray(postsList)
-    val postsAsHtml = ReactJs.render(postsAsJson, "localhost")
+    val postsList = Posts.posts.take(3).map(p => Json.toJson(p).as[JsObject]) // List[Post] -> List[JsObject]
+    val postsAsJson = JsArray(postsList) // List[JsObject] -> JsArray
+    val postsAsHtml = ReactJs.render(postsAsJson) // JsArray -> String
 
-    Ok(views.html.posts(postsAsJson.toString, postsAsHtml.toString))
+    Ok(views.html.posts(postsAsJson.toString, postsAsHtml))
   }
 
 }

@@ -38,7 +38,7 @@ var LatestPosts = function (_React$Component) {
         _this.render = function () {
             return React.createElement("div", null, _this.props.posts.map(function (post) {
                 return _this.renderPost(post);
-            }));
+            }), React.createElement("button", { onClick: _this.props.onClickMore }, "More posts !"));
         };
 
         return _this;
@@ -51,6 +51,13 @@ LatestPosts.defaultProps = {
     posts: []
 };
 
+LatestPosts.propTypes = {
+    posts: React.PropTypes.array.isRequired,
+    webHost: React.PropTypes.string,
+    canShowMore: React.PropTypes.bool,
+    onClickMore: React.PropTypes.func
+};
+
 module.exports = LatestPosts;
 
 },{"react":"/Users/romain/Projects/perso/play-framework-react-isomorphic/frontend/node_modules/react/react.js"}],"/Users/romain/Projects/perso/play-framework-react-isomorphic/frontend/frontend/src/js/server_build.js":[function(require,module,exports){
@@ -61,8 +68,8 @@ var ReactDOM = require("react-dom/server"); // Include react-dom for server rend
 
 var LatestPosts = require('./pages/post/LatestPosts');
 
-function renderPostList(elements, webHost) {
-    return ReactDOM.renderToString(React.createElement(LatestPosts, { posts: elements, webHost: webHost, canShowMore: true, onClickMore: noop }));
+function renderPostList(elements) {
+    return ReactDOM.renderToString(React.createElement(LatestPosts, { posts: elements, onClickMore: function onClickMore() {} }));
 }
 
 function noop() {

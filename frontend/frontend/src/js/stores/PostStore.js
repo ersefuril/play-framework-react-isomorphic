@@ -3,6 +3,7 @@
  */
 const Reflux = require('reflux');
 const PostActions = require("../actions/PostActions");
+const { PostApi } = require("../api/Api");
 
 
 var PostStore = Reflux.createStore({
@@ -10,16 +11,14 @@ var PostStore = Reflux.createStore({
         this.listenTo(PostActions.getMorePost, this.onGetMorePost);
 
         this.posts = [];
-        this.remainingPosts = 0;
     },
 
-    initialize(posts){
-        this.posts = posts;
-    },
-
-    onGetMorePost() {
-        //let beforeDate = this.posts.length > 0 ? this.posts[this.posts.length - 1].publishedAt : DEFAULT_DATE;
-        //PostActions.getPostBeforeDate(beforeDate, this.cityFilter, this.geolocation, this.geolocationDistance);
+    onGetMorePost(from) {
+        // Get more posts from server
+        PostApi.getPosts(from).done( (posts) => {
+            this.posts = this.posts.concat(posts);
+            this.trigger();
+        });
     },
 
     onGetPost(result) {

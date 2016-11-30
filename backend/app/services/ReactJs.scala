@@ -15,22 +15,21 @@ object ReactJs {
     val engineManager = new ScriptEngineManager(null).getEngineByName("nashorn")
 
     engineManager.eval("var global = this; var console = {error: print, log: print, warn: print};")
-    engineManager.eval(new InputStreamReader(getClass.getResourceAsStream("/public/javascripts/app-frontend-server.js")))
+    engineManager.eval(new InputStreamReader(getClass.getResourceAsStream("/public/javascripts/app-frontend-server.js"))) // Inject javascript build
 
     engineManager
   }
 
-  def render(jsArray: JsArray, baseUrl: String): String = {
+  def render(jsArray: JsArray): String = {
     // execute the React app and get the corresponding html string
-    val loadingScript = s"app.renderPostList($jsArray, '$baseUrl/');"
+    val loadingScript = s"app.renderPostList($jsArray);"
 
     try {
       engine.eval(loadingScript).toString
     } catch  {
-      case e: ScriptException => {
+      case e: ScriptException =>
         Logger.error(e.toString)
-        ""  //TODO consider to return Option or a Try
-      }
+        ""
     }
 
   }
