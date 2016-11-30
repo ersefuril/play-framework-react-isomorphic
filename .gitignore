@@ -1,4 +1,5 @@
 .*
 !.gitignore
 */node_modules/
+backend/project/target/
 backend/target/*

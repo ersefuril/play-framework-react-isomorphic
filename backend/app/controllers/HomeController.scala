@@ -1,8 +1,12 @@
 package controllers
 
 import javax.inject._
+
+import models.Posts
 import play.api._
+import play.api.libs.json.{JsArray, JsObject, Json}
 import play.api.mvc._
+import services.ReactJs
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -19,6 +23,19 @@ class HomeController @Inject() extends Controller {
    */
   def index = Action {
     Ok(views.html.index())
+  }
+
+  def getPosts = Action {
+    // Put a .wait here
+    Ok(Json.toJson(Posts.posts))
+  }
+
+  def postPage = Action {
+    val postsList = Posts.posts.map(p => Json.toJson(p).as[JsObject])
+    val postsAsJson = JsArray(postsList)
+    val postsAsHtml = ReactJs.render(postsAsJson, "localhost")
+
+    Ok(views.html.posts(postsAsJson.toString, postsAsHtml.toString))
   }
 
 }

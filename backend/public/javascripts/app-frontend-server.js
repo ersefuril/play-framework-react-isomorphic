@@ -57,12 +57,12 @@ module.exports = LatestPosts;
 "use strict";
 
 var React = require("react");
-var ReactDOM = require("react-dom/server");
+var ReactDOM = require("react-dom/server"); // Include react-dom for server rendering here
 
 var LatestPosts = require('./pages/post/LatestPosts');
 
 function renderPostList(elements, webHost) {
-    return ReactDOM.renderToString(React.createElement(LatestPosts, { elements: elements, webHost: webHost, canShowMore: true, onClickMore: noop }));
+    return ReactDOM.renderToString(React.createElement(LatestPosts, { posts: elements, webHost: webHost, canShowMore: true, onClickMore: noop }));
 }
 
 function noop() {
