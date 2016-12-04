@@ -64,12 +64,12 @@ module.exports = LatestPosts;
 "use strict";
 
 var React = require("react");
-var ReactDOM = require("react-dom/server"); // Include react-dom for server rendering here
+var ReactDOM = require("react-dom/server"); // Include react-dom for server rendering
 
 var LatestPosts = require('./pages/post/LatestPosts');
 
 function renderPostList(elements) {
-    return ReactDOM.renderToString(React.createElement(LatestPosts, { posts: elements, onClickMore: function onClickMore() {} }));
+    return ReactDOM.renderToString(React.createElement(LatestPosts, { posts: elements, onClickMore: noop }));
 }
 
 function noop() {

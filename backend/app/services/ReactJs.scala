@@ -11,7 +11,10 @@ import play.api.libs.json.JsArray
   */
 object ReactJs {
 
-  lazy val engine = {
+  // Here we deliberately use a def to inject nashorn each time for statistics purpose only
+  // In production, prefer the usage of a val instead
+  def engine = {
+    println("*** Loading nashorn...")
     val engineManager = new ScriptEngineManager(null).getEngineByName("nashorn")
 
     engineManager.eval("var global = this; var console = {error: print, log: print, warn: print};")

@@ -1,21 +1,7 @@
-@(jsonPosts: String, htmlPosts: String)
-
 @*
     Our React application will be loaded inside this div.
-    First, server will render posts
-    Then, once React has been loaded, this div's content will be replaced by React application
 *@
-<div id="post-list">
-    @Html(htmlPosts)
-</div>
-
-
-@* Put posts in a global variable to let the React application using them *@
-<script type="text/javascript">
-    var posts = @Html(jsonPosts);
-    console.log('Settings post in global variable : ', posts);
-    window._react_post_list_data = posts;
-</script>
+<div id="post-list"></div>
 
 @* Include React application code *@
 <script src="@routes.Assets.versioned("javascripts/app-frontend.js")" type="text/javascript"></script>
