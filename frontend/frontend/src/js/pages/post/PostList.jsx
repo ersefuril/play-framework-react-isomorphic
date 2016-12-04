@@ -19,11 +19,9 @@ class PostList extends RefluxComponent {
 
     onClickMore = () => PostActions.getMorePost(PostStore.posts.length);
 
-    render = () => {
-        console.log('loaded post in frontend : ', PostStore.posts);
-
-        return <LatestPosts posts={PostStore.posts} onClickMore={this.onClickMore}/>;
-    }
+    render = () => (
+        <LatestPosts posts={PostStore.posts} onClickMore={this.onClickMore}/>
+    );
 }
 
 module.exports = PostList;

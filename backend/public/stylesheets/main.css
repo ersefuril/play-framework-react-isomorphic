@@ -1,0 +1,16 @@
+.post {
+    display: flex;
+    background-color: #efefef;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+.post__title {
+    margin: 2px 10px;
+}
+
+.post__picture {
+    height: 60px;
+    width: 80px;
+}

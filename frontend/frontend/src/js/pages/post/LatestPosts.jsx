@@ -8,8 +8,9 @@ class LatestPosts extends React.Component {
     }
 
     renderPost = (post) => (
-        <div key={post.id}>
-            <div>{ post.title }</div>
+        <div key={post.id} className="post">
+            <img src={ post.pictureUri } className="post__picture"/>
+            <h4 className="post__title">{ post.title }</h4>
         </div>
     );
 
