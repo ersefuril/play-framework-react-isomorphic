@@ -1,7 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
-const ssr = require('./app-frontend-server.js');
+const ssr = require('../backend/public/javascripts/app-frontend-server.js');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
@@ -12,7 +12,6 @@ server.connection({
 
 function render(payload) {
 	const str = ssr.renderPostList(payload);
-	console.log(payload);
 	return str;
 }
 
