@@ -24,4 +24,9 @@ object Posts {
     Post(6, "Jack Black", "http://www.jewornotjew.com/img/people/j/jack_black.jpg")
   )
 
+  val allPosts = {
+    val max = 500
+    (0 to max).map(_ => posts((new util.Random).nextInt(posts.length))).toList
+  }
+
 }

@@ -8,12 +8,15 @@ import play.api.libs.json.{JsArray, JsObject, Json}
 import play.api.mvc._
 import services.ReactJs
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
 @Singleton
-class HomeController @Inject() extends Controller {
+class HomeController @Inject()(reactJs: ReactJs) extends Controller {
 
   /**
    * Create an Action to render an HTML page with a welcome message.
@@ -26,18 +29,20 @@ class HomeController @Inject() extends Controller {
   }
 
   def getPosts(from: Int) = Action {
-    Ok(Json.toJson(Posts.posts.slice(from, from + 3)))
+    Ok(Json.toJson(Posts.allPosts.take(50)))
   }
 
-  def postPage(server: Boolean) = Action {
-    if(!server) {
-      Ok(views.html.posts())
-    } else {
-      val postsList = Posts.posts.take(3).map(p => Json.toJson(p).as[JsObject]) // List[Post] -> List[JsObject]
+  def postPage(server: String) = Action.async {
+    if(!server.isEmpty) {
+      val postsList = Posts.allPosts.map(p => Json.toJson(p).as[JsObject]) // List[Post] -> List[JsObject]
       val postsAsJson = JsArray(postsList) // List[JsObject] -> JsArray
-      val postsAsHtml = ReactJs.render(postsAsJson) // JsArray -> String
 
-      Ok(views.html.postsServerRendering(postsAsJson.toString.trim, postsAsHtml.trim))
+      // JsArray -> String
+      reactJs.renderReact(postsAsJson, server).map { postsAsHtml =>
+        Ok(views.html.postsServerRendering(postsAsJson.toString.trim, postsAsHtml.trim))
+      }
+    } else {
+      Future(Ok(views.html.posts()))
     }
   }
 

@@ -16,20 +16,13 @@ gulp.task('watch-frontend', ['watchify-frontend'], function(cb) {
     gulp.watch([
         './frontend/src/js/**/*.js',
         './frontend/src/js/**/*.jsx'
-    ], ['lint-local-frontend']);
+    ]);
     cb();
 });
 
 gulp.task('default', function(cb){
     runSequence(
         'clean',
-        ['lint-local-frontend', 'watch-frontend'],
-        cb
-    );
-});
-
-gulp.task('frontend', function(cb){
-    runSequence(
         ['lint-local-frontend', 'watch-frontend'],
         cb
     );

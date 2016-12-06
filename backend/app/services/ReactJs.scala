@@ -1,19 +1,24 @@
 package services
 
 import java.io.InputStreamReader
+import javax.inject.Singleton
 import javax.script.{ScriptEngineManager, ScriptException}
 
+import com.google.inject.Inject
 import play.api.Logger
-import play.api.libs.json.JsArray
+import play.api.libs.json.{JsArray, Json}
+import play.api.libs.ws.{WS, WSClient}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
   * Created by vwittal on 14/07/16.
   */
-object ReactJs {
+@Singleton
+class ReactJs @Inject() (ws: WSClient) {
 
-  // Here we deliberately use a def to inject nashorn each time for statistics purpose only
-  // In production, prefer the usage of a val instead
-  def engine = {
+  lazy val cachedNashorn = {
     println("*** Loading nashorn...")
     val engineManager = new ScriptEngineManager(null).getEngineByName("nashorn")
 
@@ -23,19 +28,30 @@ object ReactJs {
     engineManager
   }
 
-  def render(jsArray: JsArray): String = {
+  def renderReactWithNashorn(jsArray: JsArray): Future[String] = {
     // execute the React app and get the corresponding html string
     val loadingScript = s"app.renderPostList($jsArray);"
-
     try {
-      engine.eval(loadingScript).toString
+      Future(cachedNashorn.eval(loadingScript).toString)
     } catch  {
       case e: ScriptException =>
         Logger.error(e.toString)
-        ""
+        Future("")
     }
-
   }
 
+  def renderReactWithNode(jsArray: JsArray): Future[String]= {
+    ws.url("http://localhost:8000/render").post(jsArray).map { r =>
+      r.body
+    }
+  }
+
+  def renderReact(jsArray: JsArray, renderMethod: String): Future[String] = {
+    if(renderMethod == "node") {
+      renderReactWithNode(jsArray)
+    } else {
+      renderReactWithNashorn(jsArray)
+    }
+  }
 
 }

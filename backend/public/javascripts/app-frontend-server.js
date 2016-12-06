@@ -31,13 +31,13 @@ var LatestPosts = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (LatestPosts.__proto__ || Object.getPrototypeOf(LatestPosts)).call(this, props));
 
-        _this.renderPost = function (post) {
-            return React.createElement("div", { key: post.id }, React.createElement("div", null, post.title));
+        _this.renderPost = function (post, idx) {
+            return React.createElement("div", { key: idx, className: "post" }, React.createElement("img", { src: post.pictureUri, className: "post__picture" }), React.createElement("h4", { className: "post__title" }, post.title));
         };
 
         _this.render = function () {
-            return React.createElement("div", null, _this.props.posts.map(function (post) {
-                return _this.renderPost(post);
+            return React.createElement("div", null, _this.props.posts.map(function (post, idx) {
+                return _this.renderPost(post, idx);
             }), React.createElement("button", { onClick: _this.props.onClickMore }, "More posts !"));
         };
 

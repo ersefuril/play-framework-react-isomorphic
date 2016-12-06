@@ -11,8 +11,13 @@ var PostStore = Reflux.createStore({
         this.listenTo(PostActions.getMorePost, this.onGetMorePost);
 
         this.posts = [];
-        // If server rendering is disabled, we must get post from API
-        if(window.location.search.includes("server=false")) {
+    },
+
+    initPosts(posts) {
+        if(posts) {
+            this.posts = posts;
+        } else {
+            // If server rendering is disabled, we must get post from API
             this._getPosts();
         }
     },

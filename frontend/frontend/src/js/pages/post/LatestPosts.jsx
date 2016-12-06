@@ -7,8 +7,8 @@ class LatestPosts extends React.Component {
         super(props);
     }
 
-    renderPost = (post) => (
-        <div key={post.id} className="post">
+    renderPost = (post, idx) => (
+        <div key={idx} className="post">
             <img src={ post.pictureUri } className="post__picture"/>
             <h4 className="post__title">{ post.title }</h4>
         </div>
@@ -16,7 +16,7 @@ class LatestPosts extends React.Component {
 
     render = () => (
         <div>
-            { this.props.posts.map( (post) => this.renderPost(post)) }
+            { this.props.posts.map( (post, idx) => this.renderPost(post, idx)) }
             <button onClick={this.props.onClickMore}>More posts !</button>
         </div>
     );
