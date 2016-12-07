@@ -2,6 +2,8 @@
 A sample seed project to render React on the server side. It will run a small ReactJS app displaying a list of posts.
 This project is based on **Play Framework**, **ReactJS** and **NodeJS**.
 
+Here are the slides of the related presentation: [Isomorphic Apps with React](https://slides.com/alainvagner/isomorphic)
+
 ### First, build frontend :
 - `cd frontend`
 - `npm install`
@@ -23,3 +25,4 @@ Just access to `http://localhost:9010/post` and pass `server`query parameter to 
 - `http://localhost:9010/post` : no server rendering
 - `http://localhost:9010/post?server=nashorn` : server rendering using Nashorn
 - `http://localhost:9010/post?server=node` : server rendering using Node
+
